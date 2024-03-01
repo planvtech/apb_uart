@@ -206,6 +206,7 @@ reg iLSR_THRERE; // 612
 reg iTHRInterrupt; // 612
 reg iTXEnable; // 612
 reg iRTS; // 612
+reg iRSTr;
 assign /*903*/ iWrite = (PSEL ==  1'b1 && PENABLE ==  1'b1) && PWRITE ==  1'b1 ?  1'b1 :   1'b0; // 905
 assign /*903*/ iRead = (PSEL ==  1'b1 && PENABLE ==  1'b1) && PWRITE ==  1'b0 ?  1'b1 :   1'b0; // 905
 assign /*903*/ iRST = RSTN ==  1'b0 ?  1'b1 :   1'b0; // 905
@@ -221,6 +222,7 @@ assign /*903*/ iMCRWrite = iWrite ==  1'b1 && PADDR == 3'b100 ?  1'b1 :   1'b0; 
 assign /*903*/ iLSRRead = iRead ==  1'b1 && PADDR == 3'b101 ?  1'b1 :   1'b0; // 905
 assign /*903*/ iMSRRead = iRead ==  1'b1 && PADDR == 3'b110 ?  1'b1 :   1'b0; // 905
 assign /*903*/ iSCRWrite = iWrite ==  1'b1 && PADDR == 3'b111 ?  1'b1 :   1'b0; // 905
+slib_input_sync UART_IS_SIN (CLK,iRST,iRST,iRSTr); 
 slib_input_sync UART_IS_SIN (CLK,iRST,SIN,iSINr); // 879
 slib_input_sync UART_IS_CTS (CLK,iRST,CTSN,iCTSNs); // 879
 slib_input_sync UART_IS_DSR (CLK,iRST,DSRN,iDSRNs); // 879
@@ -696,7 +698,7 @@ uart_transmitter UART_TX (
 assign /*432*/ iTXClear =  1'b0; // 434
 uart_receiver UART_RX (
 	.CLK(CLK),
-	.RST(iRST),
+	.RST(iRSTr),
 	.RXCLK(iRCLK),
 	.RXCLEAR(iRXClear),
 	.WLS(iLCR_WLS),
