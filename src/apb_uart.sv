@@ -223,7 +223,7 @@ assign /*903*/ iLSRRead = iRead ==  1'b1 && PADDR == 3'b101 ?  1'b1 :   1'b0; //
 assign /*903*/ iMSRRead = iRead ==  1'b1 && PADDR == 3'b110 ?  1'b1 :   1'b0; // 905
 assign /*903*/ iSCRWrite = iWrite ==  1'b1 && PADDR == 3'b111 ?  1'b1 :   1'b0; // 905
 slib_input_sync UART_IS_SIN (CLK,iRST,iRST,iRSTr); 
-slib_input_sync UART_IS_SIN (CLK,iRST,SIN,iSINr); // 879
+slib_input_sync UART_IS_RST (CLK,iRST,SIN,iSINr); // 879
 slib_input_sync UART_IS_CTS (CLK,iRST,CTSN,iCTSNs); // 879
 slib_input_sync UART_IS_DSR (CLK,iRST,DSRN,iDSRNs); // 879
 slib_input_sync UART_IS_DCD (CLK,iRST,DCDN,iDCDNs); // 879
