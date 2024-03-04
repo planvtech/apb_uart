@@ -222,8 +222,7 @@ assign /*903*/ iMCRWrite = iWrite ==  1'b1 && PADDR == 3'b100 ?  1'b1 :   1'b0; 
 assign /*903*/ iLSRRead = iRead ==  1'b1 && PADDR == 3'b101 ?  1'b1 :   1'b0; // 905
 assign /*903*/ iMSRRead = iRead ==  1'b1 && PADDR == 3'b110 ?  1'b1 :   1'b0; // 905
 assign /*903*/ iSCRWrite = iWrite ==  1'b1 && PADDR == 3'b111 ?  1'b1 :   1'b0; // 905
-slib_input_sync UART_IS_SIN (CLK,iRST,iRST,iRSTr); 
-slib_input_sync UART_IS_RST (CLK,iRST,SIN,iSINr); // 879
+slib_input_sync UART_IS_SIN (CLK,iRST,SIN,iSINr); // 879
 slib_input_sync UART_IS_CTS (CLK,iRST,CTSN,iCTSNs); // 879
 slib_input_sync UART_IS_DSR (CLK,iRST,DSRN,iDSRNs); // 879
 slib_input_sync UART_IS_DCD (CLK,iRST,DCDN,iDCDNs); // 879
@@ -240,9 +239,11 @@ always @(posedge CLK or posedge iRST)
        iDLL <= (0<<7)|(0<<6)|(0<<5)|(0<<4)|(0<<3)|(0<<2)|(0<<1)|(1<<0);
        /* block const 263 */
        iDLM <= (0<<7)|(0<<6)|(0<<5)|(0<<4)|(0<<3)|(0<<2)|(0<<1)|(0<<0);
+       iRSTr <='1;
     end
   else
     begin
+      iRSTr <=iRST;
        if ((iDLLWrite ==  1'b1))
          begin
             iDLL <= PWDATA[7:0] ; // 413
