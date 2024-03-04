@@ -145,7 +145,7 @@ always @(posedge CLK or posedge RST)
          end
     end
 
-assign /*903*/ iDataCountFinish = (((WLS == 2'b00 && iDataCount == 5) | (WLS == 2'b01 && iDataCount == 6)) | (WLS == 2'b10 && iDataCount == 7)) | (WLS == 2'b11 && iDataCount == 8) ?  1'b1 :   1'b0; // 905
+assign /*903*/ iDataCountFinish = (((WLS == 2'b00 && iDataCount >= 5) | (WLS == 2'b01 && iDataCount >= 6)) | (WLS == 2'b10 && iDataCount >= 7)) | (WLS == 2'b11 && iDataCount >= 8) ?  1'b1 :   1'b0; // 905
 
 always @(posedge CLK or posedge RST)
   if ((RST ==  1'b1))
