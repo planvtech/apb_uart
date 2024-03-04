@@ -206,7 +206,7 @@ reg iLSR_THRERE; // 612
 reg iTHRInterrupt; // 612
 reg iTXEnable; // 612
 reg iRTS; // 612
-reg iRSTr;
+reg iRSTr,iRSTr0;
 assign /*903*/ iWrite = (PSEL ==  1'b1 && PENABLE ==  1'b1) && PWRITE ==  1'b1 ?  1'b1 :   1'b0; // 905
 assign /*903*/ iRead = (PSEL ==  1'b1 && PENABLE ==  1'b1) && PWRITE ==  1'b0 ?  1'b1 :   1'b0; // 905
 assign /*903*/ iRST = RSTN ==  1'b0 ?  1'b1 :   1'b0; // 905
@@ -239,11 +239,13 @@ always @(posedge CLK or posedge iRST)
        iDLL <= (0<<7)|(0<<6)|(0<<5)|(0<<4)|(0<<3)|(0<<2)|(0<<1)|(1<<0);
        /* block const 263 */
        iDLM <= (0<<7)|(0<<6)|(0<<5)|(0<<4)|(0<<3)|(0<<2)|(0<<1)|(0<<0);
-       iRSTr <='1;
+       iRSTr  <='1;
+       iRSTr0 <='1;
     end
   else
     begin
-      iRSTr <=iRST;
+      iRSTr0 <=iRST;
+      iRSTr <=iRSTr0;
        if ((iDLLWrite ==  1'b1))
          begin
             iDLL <= PWDATA[7:0] ; // 413
